@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="FPDFLib"/>
+    <Author Value="Marcos Douglas B. dos Santos"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <IncludeFiles Value="..\src"/>
+        <OtherUnitFiles Value="..\src"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="This is a Pascal port of the original FPDF library for PHP by Olivier PLATHEY.
+It is also based on the first port, called Free-JPDF-Pascal, by Patrick Jean."/>
+    <License Value="See the file LICENSE, included in this distribution, for details about the copyright."/>
+    <Version Release="1"/>
+    <Files Count="1">
+      <Item1>
+        <Filename Value="..\src\fpdf.pas"/>
+        <UnitName Value="FPDF"/>
+      </Item1>
+    </Files>
+    <Type Value="RunTimeOnly"/>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
