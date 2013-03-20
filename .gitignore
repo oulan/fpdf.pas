@@ -9,4 +9,5 @@
 *.bat
 *.compiled
 bin/
+doc/fpdf17/
 test/lib/
