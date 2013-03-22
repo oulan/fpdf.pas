@@ -1,11 +1,11 @@
-unit FPDF;
+unit fpdf;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, fgl;
 
 const
   FPDF_VERSION = '1.7';
@@ -75,10 +75,11 @@ type
   #}
   protected
     procedure _dochecks;
-    procedure Error(const Amsg: string);
+    function _getpagesize:
   public
     constructor Create(Aorientation: Char='P'; Aunit: Char='mm'; Asize: string='A4');
     destructor Destroy; override;
+    procedure Error(const Amsg: string);
   end;
 
 implementation
@@ -105,9 +106,25 @@ begin
   }
 end;
 
-procedure TFPDF.Error(const Amsg: string);
+function TFPDF._getpagesize(Asize);
 begin
-  raise Exception.Create('FPDF error: ' + Amsg);
+  {
+  if(is_string($size))
+  begin
+	  $size = strtolower($size);
+	  if(!isset($this->StdPageSizes[$size]))
+		  $this->Error('Unknown page size: '.$size);
+	  $a = $this->StdPageSizes[$size];
+	  return array($a[0]/$this->k, $a[1]/$this->k);
+  end
+  else
+  begin
+	  if($size[0]>$size[1])
+		  return array($size[1], $size[0]);
+	  else
+		  return $size;
+  end;
+  }
 end;
 
 
@@ -171,11 +188,11 @@ begin
   else
     Error('Incorrect unit: ' + Aunit);
   // Page sizes
-  FStdPageSizes = array('a3'=>array(841.89,1190.55), 'a4'=>array(595.28,841.89), 'a5'=>array(420.94,595.28),
-  	'letter'=>array(612,792), 'legal'=>array(612,1008));
-  $size = $this->_getpagesize($size);
-  $this->DefPageSize = $size;
-  $this->CurPageSize = $size;
+//#  FStdPageSizes = array('a3'=>array(841.89,1190.55), 'a4'=>array(595.28,841.89), 'a5'=>array(420.94,595.28),
+//#  	'letter'=>array(612,792), 'legal'=>array(612,1008));
+  Asize := _getpagesize(Asize);
+  FDefPageSize := Asize;
+  FCurPageSize := Asize;
   // Page orientation
   $orientation = strtolower($orientation);
   if($orientation=='p' || $orientation=='portrait')
@@ -216,5 +233,12 @@ destructor TFPDF.Destroy;
 begin
   Fbuffer.Free;
   inherited Destroy;
+end;
+
+procedure TFPDF.Error(const Amsg: string);
+begin
+  raise Exception.Create('FPDF error: ' + Amsg);
+end;
+
 end.
 
